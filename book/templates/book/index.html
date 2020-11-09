@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <!-- page content start here-->
+    <div class="container">
+      <div class="row">
+        <div class="col-md-2">
+          <div class="row">
+            <div class="col-sm-12">
+              <h4>BROWSE</h4>
+              <div class="span12">
+                  <form id="side-search-form" class="form-search form-horizontal pull-right">
+                      <div class="input-append span12">
+<!--                          <input type="text" class="search-query mac-style" placeholder="Search">-->
+                          <input type="text" class="search-query form-control" placeholder="Search">
+                          <button type="submit" class="btn"><i class="icon-search"></i></button>
+
+                        <p style="top: 0">
+                          <h4>CATEGORY
+                            <span>
+                              <a type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                                <h2 style="padding-left: 70px;">+</h2>
+                              </a>
+                            </span>
+                          </h4>
+
+                          </p>
+                          <div class="collapse" id="collapseExample">
+                            <div class="card card-body">
+                              <ul class="list-group">
+                                <li class="d-flex justify-content-between align-items-center" style="padding-bottom: 5px;">
+                                  <a href="{% url 'book:index' %}">All</a>
+                                  <span class="badge badge-primary badge-pill">{{ book_total }}</span>
+                                </li>
+
+                                {% for c in categories %}
+                                <li class="d-flex justify-content-between align-items-center" style="padding-bottom: 5px;">
+                                  <a href="{{ c.get_absolute_url }}">{{ c.name }}</a>
+                                  <span class="badge badge-primary badge-pill">{{ book_total_per_cat }}</span>
+                                </li>
+                                {% endfor %}
+                              </ul>
+                            </div>
+                          </div>
+
+                      </div>
+                  </form>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-10">
+          <div class="row">
+            <div class="col-12">
+                {% for book in books %}
+              <div class="card-item">
+<!--                Custom-->
+                	<div class="col-md-4 mt-4">
+                        <div class="card card-item">
+                            <div class="card-img-block">
+                                <img class="card-img-top" src="{{ book.image.url }}" alt="Card image cap">
+                            </div>
+                            <div class="card-body pt-0">
+                            <h4 class="card-title">{{ book.title }}</h4>
+                            <p class="card-text">{{ book.description }}<a href="{{ book.get_absolute_url }}">Read more</a></p>
+                            <div>
+                              <h5><strong> In stock </strong> | <span><b>Price:</b> ${{ book.price }}</span></h5>
+                              <a href="{{ book.get_absolute_url }}" type="button" class="btn btn-light btn-block">Add To Cart</a>
+                            </div>
+                          </div>
+                        </div>
+                    </div>
+              </div>
+                {% endfor %}
+<!--              end cards-->
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+<!--    Page content ends here-->
+{% endblock %}

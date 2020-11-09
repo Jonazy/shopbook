@@ -1,0 +1,97 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <table class="table">
+              <thead class="thead-light">
+                <tr>
+                  <th scope="col">Id</th>
+                  <th scope="col">Image</th>
+                  <th scope="col">Name</th>
+                  <th scope="col">Quantity</th>
+                  <th scope="col">Price</th>
+                  <th scope="=col">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+              {% for item in cart %}
+                {% with book=item.book %}
+                <tr>
+                    <td>
+                        <h5>{{ book.id }}</h5>
+                    </td>
+                    <td>
+                        <div>
+                            <a href="#">
+                                <img src="http://icons.iconarchive.com/icons/custom-icon-design/flatastic-2/72/product-icon.png" style="width: 72px; height: 72px;">
+                            </a>
+                        </div>
+                    </td>
+                  <td>
+                      <div>
+                          <h5>{{ book.title }}</h5>
+                      </div>
+                  </td>
+                  <td>
+                      <div>
+                          <h5>
+                              <form action="{% url "cart:cart_add" book.id %}" method="post">
+                                 {{ item.update_quantity_form.override }}
+                                {{ item.update_quantity_form.quantity }}
+                                 <input type="submit" class="btn btn-secondary active" value="update">
+                                 {% csrf_token %}
+                              </form>
+                          </h5>
+                      </div>
+                  </td>
+                  <td>
+                      <div>
+                          <h5>{{ item.total_price }}</h5>
+                      </div>
+                  </td>
+                  <td>
+                      <div>
+                          <form action="{% url 'cart:cart_remove' book.id %}" method="post">
+                                {% csrf_token %}
+                              <input type="submit" class="btn btn-danger" value="Remove">
+
+                            </form>
+                      </div>
+                  </td>
+                </tr>
+              {% endwith %}
+              {% endfor %}
+                <tr>
+                    <td> </td>
+                    <td> </td>
+                    <td> </td>
+                    <td> </td>
+                    <td>
+                        <h4>Subtotal</h4>
+                        <h4>Estimated shipping</h4>
+                        <h3>Total</h3>
+                        <a href="{% url 'book:index' %}" type="button" class="btn btn-secondary">
+                            <span class="glyphicon glyphicon-shopping-cart"></span> Continue Shopping
+                        </a>
+                    </td>
+                    <td>
+                        <h4><strong>$ {{ cart.sub_total_price }}</strong></h4>
+                        <h4><strong>$ 15.10</strong></h4>
+                        <h3><strong>$ {{ cart.get_total_price }}</strong></h3>
+                        <a href="{% url 'orders:order_create' %}" type="button" class="btn btn-success btn-block">
+                           Checkout
+                        </a>
+
+<!--                        <button class="btn btn-success btn-block">-->
+<!--                            Checkout-->
+<!--                        </button>-->
+                    </td>
+                </tr>
+              </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

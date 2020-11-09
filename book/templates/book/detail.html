@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <!-- page content start here-->
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 offset-2">
+                <div class="card mb-3" style="max-width: 800px;">
+                  <div class="row no-gutters">
+                    <div class="col-md-4">
+                        <img src="{{ book.image.url }}" class="card-img" alt="image">
+<!--                     <img src="https://images.unsplash.com/photo-1517832207067-4db24a2ae47c" class="card-img" alt="image">-->
+
+
+                    </div>
+                    <div class="col-md-8">
+                      <div class="card-body">
+                        <h3 class="card-title">{{ book.title }}</h3>
+                        <p class="card-text">{{ book.description|linebreaks }}</p>
+                        <div>
+                            <h4><strong> In stock </strong> | <span><b>Price:</b> ${{ book.price }}</span></h4>
+                            <p class="card-text"><small class="text-muted">Last updated: {{ book.updated }}</small></p>
+                            <form action="{% url 'cart:cart_add' book.id %}" method="post">
+                                {% csrf_token %}
+                                <h5>{{ cart_form }}</h5>
+                                <button type="submit" class="btn btn-light btn-block">Add To Cart</button>
+                            </form>
+
+                        </div>
+
+                      </div>
+                    </div>
+                  </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Page content ends here-->
+{% endblock %}

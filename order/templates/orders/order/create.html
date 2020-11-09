@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container">
+    <h1>Checkout</h1>
+    <h3>Your order</h3>
+    <div class="row">
+        <div class="col-sm-4 offset-2">
+            <form method="post">
+                {% csrf_token %}
+              <div class="form-row">
+                <div class="form-group">
+                  <label>First_name</label>
+                    {{ order_form.first_name }}
+                </div>
+                <div class="form-group">
+                  <label>Last_name</label>
+                    {{ order_form.last_name }}
+                </div>
+                <div class="form-group">
+                  <label>Email</label>
+                    {{ order_form.email }}
+                </div>
+                <div class="form-group">
+                  <label>Address</label>
+                    {{ order_form.address }}
+                </div>
+                <div class="form-group">
+                  <label>Postal_code</label>
+                    {{ order_form.postal_code }}
+                </div>
+                <div class="form-group">
+                  <label >City</label>
+                    {{ order_form.city }}
+                </div>
+              </div>
+              <input type="submit" class="btn btn-primary btn-block" value="Place Order"></input>
+            </form>
+        </div>
+        <div class="col-sm-2">
+
+        </div>
+        <div class="col-sm-2">
+            <h4>Your order</h4>
+            <ul>
+                {% for item in cart %}
+                <li>
+                    {{ item.quantity }}x {{ item.product.name }}
+                    <span>${{ item.total_price }}</span>
+                 </li>
+                {% endfor %}
+            </ul>
+            <p>Total: ${{ cart.get_total_price }}</p>
+        </div>
+    </div>
+</div>
+{% endblock %}
